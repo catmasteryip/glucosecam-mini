@@ -13,10 +13,10 @@ patch_placeholder = st.empty()
 stop_button_pressed = st.button("Stop")
 aruco = ArUco()
 
-while(True):
+while cap.isOpened() and not stop_button_pressed:
     # Capture frame-by-frame
     ret, frame = cap.read()
-    time.sleep(.01)
+    print(frame.shape)
     black = np.full(frame.shape, 0.)
 
     rectangle, ids = aruco.detect(frame)
