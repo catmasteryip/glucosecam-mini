@@ -6,7 +6,7 @@ import time
 from warping import warping
 from segmentation import find_length
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(-1)
 st.title('ArUco colored patch length detection')
 cam_placeholder = st.empty()
 patch_placeholder = st.empty()
