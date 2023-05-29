@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import streamlit as st
 from aruco import ArUco
+import time
 from warping import warping
 from segmentation import find_length
 
@@ -9,11 +10,13 @@ cap = cv2.VideoCapture(0)
 st.title('ArUco colored patch length detection')
 cam_placeholder = st.empty()
 patch_placeholder = st.empty()
+stop_button_pressed = st.button("Stop")
 aruco = ArUco()
 
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
+    time.sleep(.01)
     black = np.full(frame.shape, 0.)
 
     rectangle, ids = aruco.detect(frame)
@@ -56,7 +59,7 @@ while(True):
     cv2.imshow('rectangle', cnt_img)
     cv2.imshow(f'patch', patch)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord('q') or stop_button_pressed:
         break
 
 # When everything done, release the capture
