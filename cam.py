@@ -1,10 +1,14 @@
 import numpy as np
 import cv2
+import streamlit as st
 from aruco import ArUco
 from warping import warping
 from segmentation import find_length
 
 cap = cv2.VideoCapture(0)
+st.title('ArUco colored patch length detection')
+cam_placeholder = st.empty()
+patch_placeholder = st.empty()
 aruco = ArUco()
 
 while(True):
@@ -14,6 +18,7 @@ while(True):
 
     rectangle, ids = aruco.detect(frame)
     cnt_img = frame.copy()
+    cam_placeholder.image(cnt_img, channels = "BGR")
     warped = black
     patch = black
     length = 0
@@ -41,12 +46,13 @@ while(True):
 
     if patch.shape[0] < patch.shape[1]:
         patch = np.rot90(patch)
+    
     aspect_ratio = 2/7
     height = int(frame.shape[0])
     width = int(aspect_ratio*height)
     dim = (width, height)
     patch = cv2.resize(patch, dim, interpolation=cv2.INTER_AREA)
-
+    patch_placeholder.image(patch, channels = "BGR")
     cv2.imshow('rectangle', cnt_img)
     cv2.imshow(f'patch', patch)
 
